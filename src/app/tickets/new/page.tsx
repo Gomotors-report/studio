@@ -31,21 +31,21 @@ export default function CreateTicketPage() {
     try {
       const newTicket = addTicket(formData);
       toast({
-        title: "Ticket Created Successfully!",
+        title: "¡Ticket Creado Exitosamente!",
         description: (
           <div>
-            <p>Ticket ID: <strong>{newTicket.id}</strong></p>
-            <p>Title: {newTicket.title}</p>
+            <p>ID del Ticket: <strong>{newTicket.id}</strong></p>
+            <p>Título: {newTicket.title}</p>
           </div>
         ),
         variant: "default",
         duration: 5000,
       });
-      router.push("/"); // Redirect to dashboard
+      router.push("/"); 
     } catch (error) {
       toast({
-        title: "Error Creating Ticket",
-        description: "Something went wrong. Please try again.",
+        title: "Error al Crear Ticket",
+        description: "Algo salió mal. Por favor, inténtalo de nuevo.",
         variant: "destructive",
       });
       setIsSubmitting(false);
@@ -57,56 +57,56 @@ export default function CreateTicketPage() {
   };
 
   if (isReviewing && formData) {
-    const tempId = "TICKET-XXXX"; // Placeholder for display
-    const submissionDate = new Date().toLocaleDateString();
+    const tempId = "TICKET-XXXX"; 
+    const submissionDate = new Date().toLocaleDateString('es-ES'); // Format date for Spanish locale
 
     return (
       <div className="max-w-3xl mx-auto space-y-8">
         <Button variant="outline" onClick={handleEdit} className="mb-4">
-          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Edit Form
+          <ArrowLeft className="mr-2 h-4 w-4" /> Volver al Formulario
         </Button>
         <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle className="text-2xl">Review Your Ticket</CardTitle>
+            <CardTitle className="text-2xl">Revisa tu Ticket</CardTitle>
             <CardDescription>
-              Please review the details below before creating the ticket.
+              Por favor, revisa los detalles a continuación antes de crear el ticket.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <h3 className="font-semibold text-lg">Title: {formData.title}</h3>
-              <p className="text-sm text-muted-foreground">ID: {tempId} (will be generated upon creation)</p>
+              <h3 className="font-semibold text-lg">Título: {formData.title}</h3>
+              <p className="text-sm text-muted-foreground">ID: {tempId} (se generará al crearlo)</p>
             </div>
             <div className="space-y-1">
-              <p className="text-sm"><span className="font-medium">Applicant:</span> {formData.applicantName}</p>
-              <p className="text-sm"><span className="font-medium">Department:</span> {formData.applicantDepartment}</p>
-              <p className="text-sm"><span className="font-medium">Contact:</span> {formData.applicantContact}</p>
+              <p className="text-sm"><span className="font-medium">Solicitante:</span> {formData.applicantName}</p>
+              <p className="text-sm"><span className="font-medium">Departamento:</span> {formData.applicantDepartment}</p>
+              <p className="text-sm"><span className="font-medium">Contacto:</span> {formData.applicantContact}</p>
             </div>
             <div>
-              <p className="text-sm font-medium">Description:</p>
+              <p className="text-sm font-medium">Descripción:</p>
               <p className="text-sm whitespace-pre-wrap bg-muted p-3 rounded-md">{formData.description}</p>
             </div>
             <div className="flex justify-between items-center">
               <div>
-                <span className="text-sm font-medium">Priority: </span>
+                <span className="text-sm font-medium">Prioridad: </span>
                 <PriorityBadge priority={formData.priority} />
               </div>
-              <p className="text-sm"><span className="font-medium">Submission Date:</span> {submissionDate} (upon creation)</p>
+              <p className="text-sm"><span className="font-medium">Fecha de Envío:</span> {submissionDate} (al crearlo)</p>
             </div>
             {formData.assignee && (
-              <p className="text-sm"><span className="font-medium">Assigned To:</span> {formData.assignee}</p>
+              <p className="text-sm"><span className="font-medium">Asignado A:</span> {formData.assignee}</p>
             )}
           </CardContent>
           <CardFooter className="flex justify-end gap-4">
             <Button variant="outline" onClick={handleEdit} disabled={isSubmitting}>
-              <Edit3 className="mr-2 h-4 w-4" /> Edit
+              <Edit3 className="mr-2 h-4 w-4" /> Editar
             </Button>
             <Button onClick={handleConfirmAndCreate} disabled={isSubmitting}>
               {isSubmitting ? (
-                "Creating..."
+                "Creando..."
               ) : (
                 <>
-                  <CheckCircle className="mr-2 h-4 w-4" /> Confirm & Create Ticket
+                  <CheckCircle className="mr-2 h-4 w-4" /> Confirmar y Crear Ticket
                 </>
               )}
             </Button>
@@ -118,14 +118,15 @@ export default function CreateTicketPage() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-2">Create New Ticket</h1>
-      <p className="text-muted-foreground mb-8">Fill in the details below to submit a new support ticket.</p>
+      <h1 className="text-3xl font-bold mb-2">Crear Nuevo Ticket</h1>
+      <p className="text-muted-foreground mb-8">Completa los detalles a continuación para enviar un nuevo ticket de soporte.</p>
       <TicketForm
         onSubmit={handleFormSubmit}
-        defaultValues={formData || {}} // Pass back formData if editing
+        defaultValues={formData || {}} 
         technicians={technicians}
-        submitButtonText="Review Ticket"
+        submitButtonText="Revisar Ticket"
       />
     </div>
   );
 }
+

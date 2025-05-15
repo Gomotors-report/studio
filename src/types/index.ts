@@ -1,9 +1,9 @@
 
-export type Priority = "High" | "Medium" | "Low";
-export const priorities: Priority[] = ["High", "Medium", "Low"];
+export type Priority = "Alta" | "Media" | "Baja";
+export const priorities: Priority[] = ["Alta", "Media", "Baja"];
 
-export type Status = "Pending" | "InProgress" | "Completed";
-export const statuses: Status[] = ["Pending", "InProgress", "Completed"];
+export type Status = "Pendiente" | "En Progreso" | "Completado";
+export const statuses: Status[] = ["Pendiente", "En Progreso", "Completado"];
 
 export interface Ticket {
   id: string; // Unique, alphanumeric, sequential e.g., TICKET-0001
@@ -37,3 +37,4 @@ export interface TicketSort {
   field: keyof Pick<Ticket, 'priority' | 'submissionDate' | 'assignee'> | 'id';
   direction: 'asc' | 'desc';
 }
+

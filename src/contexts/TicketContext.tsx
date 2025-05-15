@@ -22,7 +22,6 @@ const mockTechnicians: Technician[] = [
   { id: "tech3", name: "Charlie Brown" },
 ];
 
-// Helper to ensure localStorage is only accessed on the client
 const getInitialTickets = (): Ticket[] => {
   if (typeof window === "undefined") {
     return [];
@@ -32,58 +31,58 @@ const getInitialTickets = (): Ticket[] => {
     try {
       return JSON.parse(savedTickets);
     } catch (e) {
-      console.error("Failed to parse tickets from localStorage", e);
+      console.error("Error al parsear tickets desde localStorage", e);
       return [];
     }
   }
   return [
     {
       id: "TICKET-0001",
-      title: "Network printer offline",
-      description: "The main office printer (HP LaserJet Pro M404dn) is not responding. Users in the Sales department cannot print critical documents.",
-      applicantName: "John Doe",
-      applicantDepartment: "Sales",
-      applicantContact: "j.doe@example.com / x1234",
-      submissionDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days ago
-      priority: "High",
-      status: "Pending",
+      title: "Impresora de red desconectada",
+      description: "La impresora principal de la oficina (HP LaserJet Pro M404dn) no responde. Los usuarios del departamento de Ventas no pueden imprimir documentos críticos.",
+      applicantName: "Juan Pérez",
+      applicantDepartment: "Ventas",
+      applicantContact: "j.perez@example.com / x1234",
+      submissionDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), 
+      priority: "Alta",
+      status: "Pendiente",
       assignee: "Alice Wonderland",
     },
     {
       id: "TICKET-0002",
-      title: "Software license renewal",
-      description: "Request to renew Adobe Creative Cloud license for the Marketing team. Current license expires next month.",
-      applicantName: "Jane Smith",
+      title: "Renovación de licencia de software",
+      description: "Solicitud para renovar la licencia de Adobe Creative Cloud para el equipo de Marketing. La licencia actual vence el próximo mes.",
+      applicantName: "Ana Gómez",
       applicantDepartment: "Marketing",
-      applicantContact: "j.smith@example.com / x5678",
-      submissionDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
-      priority: "Medium",
-      status: "InProgress",
+      applicantContact: "a.gomez@example.com / x5678",
+      submissionDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(), 
+      priority: "Media",
+      status: "En Progreso",
       assignee: "Bob The Builder",
     },
     {
       id: "TICKET-0003",
-      title: "New employee onboarding setup",
-      description: "Setup new Dell laptop, email account, and software access for incoming HR specialist starting next week.",
-      applicantName: "Emily White",
-      applicantDepartment: "Human Resources",
-      applicantContact: "e.white@example.com / x HR",
+      title: "Configuración para nuevo empleado",
+      description: "Configurar nueva laptop Dell, cuenta de correo electrónico y acceso a software para el especialista de RRHH que comienza la próxima semana.",
+      applicantName: "Laura Blanca",
+      applicantDepartment: "Recursos Humanos",
+      applicantContact: "l.blanca@example.com / x RRHH",
       submissionDate: new Date().toISOString(),
-      priority: "Low",
-      status: "Pending",
+      priority: "Baja",
+      status: "Pendiente",
     },
      {
       id: "TICKET-0004",
-      title: "Server maintenance completed",
-      description: "Scheduled server maintenance on SRV-01 completed successfully. All services verified.",
-      applicantName: "IT Department",
-      applicantDepartment: "IT",
-      applicantContact: "it-support@example.com",
-      submissionDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days ago
-      priority: "Low",
-      status: "Completed",
+      title: "Mantenimiento de servidor completado",
+      description: "Mantenimiento programado del servidor SRV-01 completado con éxito. Todos los servicios verificados.",
+      applicantName: "Departamento de TI",
+      applicantDepartment: "TI",
+      applicantContact: "soporte-ti@example.com",
+      submissionDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(), 
+      priority: "Baja",
+      status: "Completado",
       assignee: "Charlie Brown",
-      solution: "All updates applied, server rebooted, services confirmed operational."
+      solution: "Todas las actualizaciones aplicadas, servidor reiniciado, servicios confirmados como operativos."
     },
   ];
 };
@@ -99,7 +98,6 @@ export const TicketProvider = ({ children }: { children: ReactNode }) => {
     setIsMounted(true);
     const initialTickets = getInitialTickets();
     setTickets(initialTickets);
-    // Determine initial counter based on existing tickets to avoid ID collision on first load
     if (initialTickets.length > 0) {
       const maxIdNum = initialTickets.reduce((max, ticket) => {
         const numPart = parseInt(ticket.id.split("-")[1], 10);
@@ -107,7 +105,7 @@ export const TicketProvider = ({ children }: { children: ReactNode }) => {
       }, 0);
       setTicketCounter(maxIdNum);
     } else {
-       setTicketCounter(initialTickets.length); // Default to existing tickets length if none have numeric suffix
+       setTicketCounter(initialTickets.length); 
     }
   }, []);
 
@@ -128,7 +126,7 @@ export const TicketProvider = ({ children }: { children: ReactNode }) => {
       ...ticketData,
       id: generateTicketId(),
       submissionDate: new Date().toISOString(),
-      status: "Pending",
+      status: "Pendiente", // Default status in Spanish
     };
     setTickets((prevTickets) => [newTicket, ...prevTickets]);
     return newTicket;
@@ -148,7 +146,6 @@ export const TicketProvider = ({ children }: { children: ReactNode }) => {
 
 
   if (!isMounted) {
-    // You can render a loader here if needed, or null
     return null; 
   }
 
@@ -171,7 +168,8 @@ export const TicketProvider = ({ children }: { children: ReactNode }) => {
 export const useTickets = (): TicketContextType => {
   const context = useContext(TicketContext);
   if (context === undefined) {
-    throw new Error("useTickets must be used within a TicketProvider");
+    throw new Error("useTickets debe ser usado dentro de un TicketProvider");
   }
   return context;
 };
+

@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Filter, ArrowUpDown, Search, RotateCcw } from 'lucide-react';
-import { useTickets } from '@/contexts/TicketContext'; // Assuming technicians are available here
+import { useTickets } from '@/contexts/TicketContext'; 
 
 const ALL_ASSIGNEES_SENTINEL = "__ALL_ASSIGNEES__";
 
@@ -21,7 +21,7 @@ export default function TicketList() {
   const [filters, setFilters] = useState<TicketFilters>({
     status: 'All',
     priority: 'All',
-    assignee: '', // Empty string represents "All Assignees" in filter state
+    assignee: '', 
     searchTerm: '',
   });
 
@@ -52,9 +52,9 @@ export default function TicketList() {
     let processedTickets = tickets;
 
     if (activeTab === 'pending') {
-      processedTickets = processedTickets.filter(t => t.status === 'Pending' || t.status === 'InProgress');
+      processedTickets = processedTickets.filter(t => t.status === 'Pendiente' || t.status === 'En Progreso');
     } else if (activeTab === 'completed') {
-      processedTickets = processedTickets.filter(t => t.status === 'Completed');
+      processedTickets = processedTickets.filter(t => t.status === 'Completado');
     }
 
     if (filters.status && filters.status !== 'All') {
@@ -63,7 +63,6 @@ export default function TicketList() {
     if (filters.priority && filters.priority !== 'All') {
       processedTickets = processedTickets.filter(t => t.priority === filters.priority);
     }
-    // filters.assignee will be an empty string for "All Assignees", so this condition correctly skips filtering by assignee
     if (filters.assignee) { 
       processedTickets = processedTickets.filter(t => t.assignee === filters.assignee);
     }
@@ -76,11 +75,10 @@ export default function TicketList() {
       );
     }
 
-    // Sorting
     processedTickets.sort((a, b) => {
       let valA: any, valB: any;
       if (sort.field === 'priority') {
-        const priorityOrder: Record<Priority, number> = { High: 1, Medium: 2, Low: 3 };
+        const priorityOrder: Record<Priority, number> = { Alta: 1, Media: 2, Baja: 3 };
         valA = priorityOrder[a.priority];
         valB = priorityOrder[b.priority];
       } else if (sort.field === 'submissionDate') {
@@ -89,7 +87,7 @@ export default function TicketList() {
       } else if (sort.field === 'assignee') {
         valA = a.assignee || '';
         valB = b.assignee || '';
-      } else { // sort by ID
+      } else { 
         valA = a.id;
         valB = b.id;
       }
@@ -110,8 +108,8 @@ export default function TicketList() {
   );
   
   const noTicketsMessage = activeTab === 'pending' 
-    ? "No pending tickets match your criteria. Great job!"
-    : "No completed tickets match your criteria.";
+    ? "No hay tickets pendientes que coincidan con tus criterios. ¡Buen trabajo!"
+    : "No hay tickets completados que coincidan con tus criterios.";
 
 
   return (
@@ -122,23 +120,23 @@ export default function TicketList() {
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Search ID, title, applicant..."
+              placeholder="Buscar ID, título, solicitante..."
               value={filters.searchTerm}
               onChange={e => handleFilterChange('searchTerm', e.target.value)}
               className="pl-9 input-custom"
             />
           </div>
           <Select value={filters.priority} onValueChange={val => handleFilterChange('priority', val as Priority | 'All')}>
-            <SelectTrigger className="input-custom"><SelectValue placeholder="Filter by Priority" /></SelectTrigger>
+            <SelectTrigger className="input-custom"><SelectValue placeholder="Filtrar por Prioridad" /></SelectTrigger>
             <SelectContent className="select-custom-content">
-              <SelectItem value="All">All Priorities</SelectItem>
+              <SelectItem value="All">Todas las Prioridades</SelectItem>
               {priorities.map(p => <SelectItem key={p} value={p}>{p}</SelectItem>)}
             </SelectContent>
           </Select>
           <Select value={filters.status} onValueChange={val => handleFilterChange('status', val as Status | 'All')}>
-            <SelectTrigger className="input-custom"><SelectValue placeholder="Filter by Status" /></SelectTrigger>
+            <SelectTrigger className="input-custom"><SelectValue placeholder="Filtrar por Estado" /></SelectTrigger>
             <SelectContent className="select-custom-content">
-              <SelectItem value="All">All Statuses</SelectItem>
+              <SelectItem value="All">Todos los Estados</SelectItem>
               {statuses.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
             </SelectContent>
           </Select>
@@ -146,30 +144,30 @@ export default function TicketList() {
             value={filters.assignee || ALL_ASSIGNEES_SENTINEL} 
             onValueChange={val => handleFilterChange('assignee', val === ALL_ASSIGNEES_SENTINEL ? '' : val)}
           >
-            <SelectTrigger className="input-custom"><SelectValue placeholder="Filter by Assignee" /></SelectTrigger>
+            <SelectTrigger className="input-custom"><SelectValue placeholder="Filtrar por Asignado" /></SelectTrigger>
             <SelectContent className="select-custom-content">
-              <SelectItem value={ALL_ASSIGNEES_SENTINEL}>All Assignees</SelectItem>
+              <SelectItem value={ALL_ASSIGNEES_SENTINEL}>Todos los Asignados</SelectItem>
               {technicians.map(tech => <SelectItem key={tech.id} value={tech.name}>{tech.name}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>
         <div className="mt-4 flex justify-between items-center">
             <div className="flex gap-1">
-                <SortButton field="submissionDate" label="Date" />
-                <SortButton field="priority" label="Priority" />
-                <SortButton field="assignee" label="Assignee" />
+                <SortButton field="submissionDate" label="Fecha" />
+                <SortButton field="priority" label="Prioridad" />
+                <SortButton field="assignee" label="Asignado" />
                 <SortButton field="id" label="ID" />
             </div>
             <Button variant="outline" size="sm" onClick={resetFilters} className="gap-1.5">
-                <RotateCcw className="h-3.5 w-3.5" /> Reset Filters
+                <RotateCcw className="h-3.5 w-3.5" /> Reiniciar Filtros
             </Button>
         </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'pending' | 'completed')}>
         <TabsList className="grid w-full grid-cols-2 md:w-auto md:inline-flex">
-          <TabsTrigger value="pending">Pending Tickets</TabsTrigger>
-          <TabsTrigger value="completed">Completed Tickets</TabsTrigger>
+          <TabsTrigger value="pending">Tickets Pendientes</TabsTrigger>
+          <TabsTrigger value="completed">Tickets Completados</TabsTrigger>
         </TabsList>
         <TabsContent value="pending">
           {filteredAndSortedTickets.length > 0 ? (

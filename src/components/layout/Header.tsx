@@ -14,17 +14,17 @@ export default function Header() {
         <Link href="/" className="flex items-center gap-2">
           <Ticket className="h-7 w-7 text-primary" />
           <span className="text-xl font-bold tracking-tight text-foreground">
-            TicketySplit
+            GoMotors Tickets
           </span>
         </Link>
         <nav className="flex items-center gap-4">
            <Link href="/" passHref>
-             <Button variant={pathname === "/" ? "default" : "ghost"} size="sm">Dashboard</Button>
+             <Button variant={pathname === "/" ? "default" : "ghost"} size="sm">Panel</Button>
            </Link>
            <Link href="/tickets/new" passHref>
             <Button variant={pathname === "/tickets/new" ? "default" : "outline"} size="sm">
               <PlusCircle className="mr-2 h-4 w-4" />
-              New Ticket
+              Nuevo Ticket
             </Button>
           </Link>
         </nav>
@@ -32,3 +32,4 @@ export default function Header() {
     </header>
   );
 }
+

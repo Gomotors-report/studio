@@ -29,11 +29,11 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const ticketFormSchema = z.object({
-  title: z.string().min(5, "Title must be at least 5 characters").max(100, "Title must be at most 100 characters"),
-  description: z.string().min(10, "Description must be at least 10 characters").max(1000, "Description must be at most 1000 characters"),
-  applicantName: z.string().min(2, "Applicant name is required").max(50),
-  applicantDepartment: z.string().min(2, "Department is required").max(50),
-  applicantContact: z.string().min(5, "Contact info is required").max(50),
+  title: z.string().min(5, "El título debe tener al menos 5 caracteres").max(100, "El título debe tener como máximo 100 caracteres"),
+  description: z.string().min(10, "La descripción debe tener al menos 10 caracteres").max(1000, "La descripción debe tener como máximo 1000 caracteres"),
+  applicantName: z.string().min(2, "El nombre del solicitante es obligatorio").max(50),
+  applicantDepartment: z.string().min(2, "El departamento es obligatorio").max(50),
+  applicantContact: z.string().min(5, "La información de contacto es obligatoria").max(50),
   priority: z.enum(priorities),
   assignee: z.string().optional(),
 });
@@ -55,12 +55,12 @@ export default function TicketForm({
   defaultValues,
   technicians,
   isSubmitting = false,
-  submitButtonText = "Submit Ticket"
+  submitButtonText = "Enviar Ticket"
 }: TicketFormProps) {
   const form = useForm<TicketFormData>({
     resolver: zodResolver(ticketFormSchema),
     defaultValues: {
-      priority: "Medium",
+      priority: "Media", // Default to "Media" which is the Spanish equivalent
       ...defaultValues,
     },
   });
@@ -70,7 +70,7 @@ export default function TicketForm({
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <Card>
           <CardHeader>
-            <CardTitle>Ticket Details</CardTitle>
+            <CardTitle>Detalles del Ticket</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <FormField
@@ -78,11 +78,11 @@ export default function TicketForm({
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>Título</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., Computer screen flickering" {...field} className="input-custom" />
+                    <Input placeholder="Ej: Pantalla de computadora parpadea" {...field} className="input-custom" />
                   </FormControl>
-                  <FormDescription>A brief, descriptive title for the issue.</FormDescription>
+                  <FormDescription>Un título breve y descriptivo para el problema.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -92,10 +92,10 @@ export default function TicketForm({
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Detailed Description</FormLabel>
+                  <FormLabel>Descripción Detallada</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Describe the problem or request in detail..."
+                      placeholder="Describe el problema o solicitud en detalle..."
                       rows={5}
                       {...field}
                       className="input-custom"
@@ -110,7 +110,7 @@ export default function TicketForm({
 
         <Card>
           <CardHeader>
-            <CardTitle>Applicant Information</CardTitle>
+            <CardTitle>Información del Solicitante</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -119,9 +119,9 @@ export default function TicketForm({
                 name="applicantName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel>Nombre Completo</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your full name" {...field} className="input-custom" />
+                      <Input placeholder="Tu nombre completo" {...field} className="input-custom" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -132,9 +132,9 @@ export default function TicketForm({
                 name="applicantDepartment"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Department</FormLabel>
+                    <FormLabel>Departamento</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., Marketing, Sales" {...field} className="input-custom" />
+                      <Input placeholder="Ej: Marketing, Ventas" {...field} className="input-custom" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -146,11 +146,11 @@ export default function TicketForm({
               name="applicantContact"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Contact Information</FormLabel>
+                  <FormLabel>Información de Contacto</FormLabel>
                   <FormControl>
-                    <Input placeholder="Email or Phone Extension" {...field} className="input-custom" />
+                    <Input placeholder="Email o Extensión Telefónica" {...field} className="input-custom" />
                   </FormControl>
-                  <FormDescription>How can we reach you?</FormDescription>
+                  <FormDescription>¿Cómo podemos contactarte?</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -160,7 +160,7 @@ export default function TicketForm({
 
         <Card>
           <CardHeader>
-            <CardTitle>Classification & Assignment</CardTitle>
+            <CardTitle>Clasificación y Asignación</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -169,11 +169,11 @@ export default function TicketForm({
                 name="priority"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Priority</FormLabel>
+                    <FormLabel>Prioridad</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger className="input-custom">
-                          <SelectValue placeholder="Select priority level" />
+                          <SelectValue placeholder="Selecciona nivel de prioridad" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="select-custom-content">
@@ -191,9 +191,9 @@ export default function TicketForm({
               <FormField
                 control={form.control}
                 name="assignee"
-                render={({ field }) => ( // field.value is string | undefined
+                render={({ field }) => ( 
                   <FormItem>
-                    <FormLabel>Assign To (Optional)</FormLabel>
+                    <FormLabel>Asignar A (Opcional)</FormLabel>
                     <Select
                       value={field.value === undefined ? INTERNAL_UNASSIGNED_VALUE : field.value}
                       onValueChange={(selectedValue) => {
@@ -202,11 +202,11 @@ export default function TicketForm({
                     >
                       <FormControl>
                         <SelectTrigger className="input-custom">
-                          <SelectValue placeholder="Select a technician" />
+                          <SelectValue placeholder="Selecciona un técnico" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="select-custom-content">
-                        <SelectItem value={INTERNAL_UNASSIGNED_VALUE}>Unassigned</SelectItem>
+                        <SelectItem value={INTERNAL_UNASSIGNED_VALUE}>Sin Asignar</SelectItem>
                         {technicians.map((tech) => (
                           <SelectItem key={tech.id} value={tech.name}>
                             {tech.name}
@@ -214,7 +214,7 @@ export default function TicketForm({
                         ))}
                       </SelectContent>
                     </Select>
-                    <FormDescription>Assign this ticket to a specific technician.</FormDescription>
+                    <FormDescription>Asigna este ticket a un técnico específico.</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -224,9 +224,10 @@ export default function TicketForm({
         </Card>
 
         <Button type="submit" disabled={isSubmitting} size="lg">
-          {isSubmitting ? "Submitting..." : submitButtonText}
+          {isSubmitting ? "Enviando..." : submitButtonText}
         </Button>
       </form>
     </Form>
   );
 }
+

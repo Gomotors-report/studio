@@ -10,8 +10,8 @@ const geistSans = GeistSans; // Using GeistSans directly
 const geistMono = GeistMono;
 
 export const metadata: Metadata = {
-  title: 'TicketySplit - IT Support Ticket System',
-  description: 'Manage your IT support tickets efficiently with TicketySplit.',
+  title: 'GoMotors Tickets - Sistema de Tickets de Soporte TI',
+  description: 'Gestiona tus tickets de soporte TI eficientemente con GoMotors Tickets.',
 };
 
 export default function RootLayout({
@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}>
         <TicketProvider>
           <AppLayout>
@@ -31,3 +31,4 @@ export default function RootLayout({
     </html>
   );
 }
+

@@ -9,9 +9,9 @@ interface PriorityBadgeProps {
 }
 
 const priorityConfig = {
-  High: { icon: Flame, className: "priority-high", text: "High" },
-  Medium: { icon: AlertTriangle, className: "priority-medium", text: "Medium" },
-  Low: { icon: Info, className: "priority-low", text: "Low" },
+  Alta: { icon: Flame, className: "priority-high", text: "Alta" },
+  Media: { icon: AlertTriangle, className: "priority-medium", text: "Media" },
+  Baja: { icon: Info, className: "priority-low", text: "Baja" },
 };
 
 export default function PriorityBadge({ priority }: PriorityBadgeProps) {
@@ -25,3 +25,4 @@ export default function PriorityBadge({ priority }: PriorityBadgeProps) {
     </Badge>
   );
 }
+

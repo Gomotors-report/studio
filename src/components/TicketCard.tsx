@@ -31,14 +31,14 @@ export default function TicketCard({ ticket }: TicketCardProps) {
         <p className="text-sm text-muted-foreground line-clamp-3">{ticket.description}</p>
         <div className="text-xs space-y-1">
           <div className="flex items-center gap-1.5 text-muted-foreground">
-            <UserCircle className="h-3.5 w-3.5" /> Applicant: <span className="font-medium text-foreground">{ticket.applicantName} ({ticket.applicantDepartment})</span>
+            <UserCircle className="h-3.5 w-3.5" /> Solicitante: <span className="font-medium text-foreground">{ticket.applicantName} ({ticket.applicantDepartment})</span>
           </div>
           <div className="flex items-center gap-1.5 text-muted-foreground">
-            <CalendarDays className="h-3.5 w-3.5" /> Submitted: <span className="font-medium text-foreground">{formatDate(ticket.submissionDate)}</span>
+            <CalendarDays className="h-3.5 w-3.5" /> Enviado: <span className="font-medium text-foreground">{formatDate(ticket.submissionDate)}</span>
           </div>
            {ticket.assignee && (
             <div className="flex items-center gap-1.5 text-muted-foreground">
-              <UserCircle className="h-3.5 w-3.5 text-primary" /> Assigned to: <span className="font-medium text-foreground">{ticket.assignee}</span>
+              <UserCircle className="h-3.5 w-3.5 text-primary" /> Asignado a: <span className="font-medium text-foreground">{ticket.assignee}</span>
             </div>
           )}
         </div>
@@ -48,17 +48,12 @@ export default function TicketCard({ ticket }: TicketCardProps) {
         <div className="flex gap-2">
           <Link href={`/tickets/${ticket.id}`} passHref>
             <Button variant="outline" size="sm">
-              <Eye className="mr-1.5 h-4 w-4" /> View
+              <Eye className="mr-1.5 h-4 w-4" /> Ver
             </Button>
           </Link>
-          {/* Future edit button if needed from list view */}
-          {/* <Link href={`/tickets/${ticket.id}/edit`} passHref>
-            <Button variant="ghost" size="sm">
-              <Edit3 className="mr-1.5 h-4 w-4" /> Edit
-            </Button>
-          </Link> */}
         </div>
       </CardFooter>
     </Card>
   );
 }
+

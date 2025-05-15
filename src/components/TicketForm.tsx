@@ -48,6 +48,8 @@ interface TicketFormProps {
   submitButtonText?: string;
 }
 
+const INTERNAL_UNASSIGNED_VALUE = "__INTERNAL_UNASSIGNED__";
+
 export default function TicketForm({
   onSubmit,
   defaultValues,
@@ -189,17 +191,22 @@ export default function TicketForm({
               <FormField
                 control={form.control}
                 name="assignee"
-                render={({ field }) => (
+                render={({ field }) => ( // field.value is string | undefined
                   <FormItem>
                     <FormLabel>Assign To (Optional)</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      value={field.value === undefined ? INTERNAL_UNASSIGNED_VALUE : field.value}
+                      onValueChange={(selectedValue) => {
+                        field.onChange(selectedValue === INTERNAL_UNASSIGNED_VALUE ? undefined : selectedValue);
+                      }}
+                    >
                       <FormControl>
                         <SelectTrigger className="input-custom">
                           <SelectValue placeholder="Select a technician" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="select-custom-content">
-                        <SelectItem value="">Unassigned</SelectItem>
+                        <SelectItem value={INTERNAL_UNASSIGNED_VALUE}>Unassigned</SelectItem>
                         {technicians.map((tech) => (
                           <SelectItem key={tech.id} value={tech.name}>
                             {tech.name}

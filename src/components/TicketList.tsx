@@ -12,6 +12,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Filter, ArrowUpDown, Search, RotateCcw } from 'lucide-react';
 import { useTickets } from '@/contexts/TicketContext'; // Assuming technicians are available here
 
+const ALL_ASSIGNEES_SENTINEL = "__ALL_ASSIGNEES__";
+
 export default function TicketList() {
   const { tickets, technicians } = useTickets();
   const [activeTab, setActiveTab] = useState<'pending' | 'completed'>('pending');
@@ -19,7 +21,7 @@ export default function TicketList() {
   const [filters, setFilters] = useState<TicketFilters>({
     status: 'All',
     priority: 'All',
-    assignee: '',
+    assignee: '', // Empty string represents "All Assignees" in filter state
     searchTerm: '',
   });
 
@@ -61,7 +63,8 @@ export default function TicketList() {
     if (filters.priority && filters.priority !== 'All') {
       processedTickets = processedTickets.filter(t => t.priority === filters.priority);
     }
-    if (filters.assignee) {
+    // filters.assignee will be an empty string for "All Assignees", so this condition correctly skips filtering by assignee
+    if (filters.assignee) { 
       processedTickets = processedTickets.filter(t => t.assignee === filters.assignee);
     }
     if (filters.searchTerm) {
@@ -139,10 +142,13 @@ export default function TicketList() {
               {statuses.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
             </SelectContent>
           </Select>
-          <Select value={filters.assignee} onValueChange={val => handleFilterChange('assignee', val)}>
+          <Select 
+            value={filters.assignee || ALL_ASSIGNEES_SENTINEL} 
+            onValueChange={val => handleFilterChange('assignee', val === ALL_ASSIGNEES_SENTINEL ? '' : val)}
+          >
             <SelectTrigger className="input-custom"><SelectValue placeholder="Filter by Assignee" /></SelectTrigger>
             <SelectContent className="select-custom-content">
-              <SelectItem value="">All Assignees</SelectItem>
+              <SelectItem value={ALL_ASSIGNEES_SENTINEL}>All Assignees</SelectItem>
               {technicians.map(tech => <SelectItem key={tech.id} value={tech.name}>{tech.name}</SelectItem>)}
             </SelectContent>
           </Select>
@@ -191,3 +197,4 @@ export default function TicketList() {
     </div>
   );
 }
+

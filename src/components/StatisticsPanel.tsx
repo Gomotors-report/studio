@@ -43,7 +43,7 @@ export default function StatisticsPanel({ tickets }: StatisticsPanelProps) {
         <StatCard title="Closed Tickets" value={closedTickets} icon={ListChecks} colorClassName="text-green-600" />
         <StatCard title="High Priority (Open)" value={highPriority} icon={Flame} colorClassName="text-red-600" />
         <StatCard title="Medium Priority (Open)" value={mediumPriority} icon={AlertTriangle} colorClassName="text-orange-600" />
-        <StatCard title="Low Priority (Open)" value={Info} icon={Info} colorClassName="text-blue-600" />
+        <StatCard title="Low Priority (Open)" value={lowPriority} icon={Info} colorClassName="text-blue-600" />
       </div>
     </div>
   );

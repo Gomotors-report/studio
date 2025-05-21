@@ -18,15 +18,7 @@ export default function Header() {
           </span>
         </Link>
         <nav className="flex items-center gap-4">
-           <Link href="/" passHref>
-             <Button variant={pathname === "/" ? "default" : "ghost"} size="sm">Panel</Button>
-           </Link>
-           <Link href="/tickets/new" passHref>
-            <Button variant={pathname === "/tickets/new" ? "default" : "outline"} size="sm">
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Nuevo Ticket
-            </Button>
-          </Link>
+         
         </nav>
       </div>
     </header>

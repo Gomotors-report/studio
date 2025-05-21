@@ -17,9 +17,8 @@ interface TicketContextType {
 const TicketContext = createContext<TicketContextType | undefined>(undefined);
 
 const mockTechnicians: Technician[] = [
-  { id: "tech1", name: "Alice Wonderland" },
-  { id: "tech2", name: "Bob The Builder" },
-  { id: "tech3", name: "Charlie Brown" },
+  { id: "tech1", name: "Carlos Ordoñez" },
+
 ];
 
 const getInitialTickets = (): Ticket[] => {

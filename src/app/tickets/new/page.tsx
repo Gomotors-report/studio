@@ -25,11 +25,11 @@ export default function CreateTicketPage() {
     setIsReviewing(true);
   };
 
-  const handleConfirmAndCreate = () => {
+  const handleConfirmAndCreate = async () => {
     if (!formData) return;
     setIsSubmitting(true);
     try {
-      const newTicket = addTicket(formData);
+      const newTicket = await addTicket(formData);
       toast({
         title: "¡Ticket Creado Exitosamente!",
         description: (
@@ -41,7 +41,11 @@ export default function CreateTicketPage() {
         variant: "default",
         duration: 5000,
       });
-      router.push("/"); 
+
+      // Reset form instead of redirecting
+      setFormData(null);
+      setIsReviewing(false);
+      setIsSubmitting(false);
     } catch (error) {
       toast({
         title: "Error al Crear Ticket",

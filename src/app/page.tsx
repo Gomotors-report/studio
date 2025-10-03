@@ -3,6 +3,8 @@
 
 import StatisticsPanel from "@/components/StatisticsPanel";
 import TicketList from "@/components/TicketList";
+import ExportPDF from "@/components/ExportPDF";
+import TotalResolutionTime from "@/components/TotalResolutionTime";
 import { useTickets } from "@/contexts/TicketContext";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
@@ -39,6 +41,8 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       <StatisticsPanel tickets={tickets} />
+      <ExportPDF tickets={tickets} />
+      <TotalResolutionTime tickets={tickets} />
       <TicketList />
     </div>
   );

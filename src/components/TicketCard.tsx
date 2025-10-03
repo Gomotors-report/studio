@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import PriorityBadge from "./PriorityBadge";
 import StatusBadge from "./StatusBadge";
 import { formatDate } from "@/lib/utils";
-import { UserCircle, CalendarDays, Edit3, Eye } from "lucide-react";
+import { UserCircle, CalendarDays, Edit3, Eye, Clock, Play, CheckCircle } from "lucide-react";
+import { formatDuration } from "@/lib/ticketUtils";
 
 interface TicketCardProps {
   ticket: Ticket;
@@ -36,7 +37,22 @@ export default function TicketCard({ ticket }: TicketCardProps) {
           <div className="flex items-center gap-1.5 text-muted-foreground">
             <CalendarDays className="h-3.5 w-3.5" /> Enviado: <span className="font-medium text-foreground">{formatDate(ticket.submissionDate)}</span>
           </div>
-           {ticket.assignee && (
+          {ticket.startTime && (
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Play className="h-3.5 w-3.5 text-blue-500" /> Inicio: <span className="font-medium text-foreground">{formatDate(ticket.startTime)}</span>
+            </div>
+          )}
+          {ticket.endTime && (
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <CheckCircle className="h-3.5 w-3.5 text-green-500" /> Fin: <span className="font-medium text-foreground">{formatDate(ticket.endTime)}</span>
+            </div>
+          )}
+          {ticket.duration && (
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Clock className="h-3.5 w-3.5 text-purple-500" /> Tiempo: <span className="font-medium text-foreground">{formatDuration(ticket.duration)}</span>
+            </div>
+          )}
+          {ticket.assignee && (
             <div className="flex items-center gap-1.5 text-muted-foreground">
               <UserCircle className="h-3.5 w-3.5 text-primary" /> Asignado a: <span className="font-medium text-foreground">{ticket.assignee}</span>
             </div>

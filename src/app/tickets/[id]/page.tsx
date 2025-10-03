@@ -60,16 +60,30 @@ export default function TicketDetailPage() {
     setNewStatus(status);
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     if (!newStatus || !ticket) return;
     setIsSubmitting(true);
+
+    const now = new Date().toISOString();
+    const completionDate = newStatus === "Completado" ? now : ticket.completionDate;
+
+    // Calculate resolution time if completing
+    let resolutionTimeMinutes = ticket.resolutionTimeMinutes;
+    if (newStatus === "Completado" && !ticket.completionDate) {
+      const submissionTime = new Date(ticket.submissionDate).getTime();
+      const completionTime = new Date(now).getTime();
+      resolutionTimeMinutes = Math.round((completionTime - submissionTime) / (1000 * 60));
+    }
+
     const updatedTicketData = {
       ...ticket,
       status: newStatus,
-      solution: newStatus === "Completado" ? solution : ticket.solution, 
+      solution: newStatus === "Completado" ? solution : ticket.solution,
+      completionDate,
+      resolutionTimeMinutes,
     };
-    updateTicket(updatedTicketData);
-    setTicket(updatedTicketData); 
+    await updateTicket(updatedTicketData);
+    setTicket(updatedTicketData);
     setIsSubmitting(false);
     toast({
       title: "Ticket Actualizado",

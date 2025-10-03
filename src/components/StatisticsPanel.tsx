@@ -2,7 +2,8 @@
 "use client";
 import type { Ticket, Priority } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle2, LoaderCircle, AlertTriangle, Flame, Info, ListChecks, ListTodo } from "lucide-react";
+import { CheckCircle2, LoaderCircle, AlertTriangle, Flame, Info, ListChecks, ListTodo, Clock } from "lucide-react";
+import { calculateTotalValidDuration, formatDuration } from "@/lib/ticketUtils";
 
 interface StatisticsPanelProps {
   tickets: Ticket[];
@@ -30,20 +31,24 @@ const StatCard = ({ title, value, icon: Icon, colorClassName = "text-primary" }:
 export default function StatisticsPanel({ tickets }: StatisticsPanelProps) {
   const openTickets = tickets.filter(t => t.status === "Pendiente" || t.status === "En Progreso").length;
   const closedTickets = tickets.filter(t => t.status === "Completado").length;
-  
+
   const highPriority = tickets.filter(t => t.priority === "Alta" && t.status !== "Completado").length;
   const mediumPriority = tickets.filter(t => t.priority === "Media" && t.status !== "Completado").length;
   const lowPriority = tickets.filter(t => t.priority === "Baja" && t.status !== "Completado").length;
 
+  // Calculate total resolution time with validation
+  const { totalSeconds } = calculateTotalValidDuration(tickets);
+
   return (
     <div className="mb-8">
       <h2 className="text-2xl font-semibold mb-4">Resumen de Tickets</h2>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         <StatCard title="Tickets Abiertos" value={openTickets} icon={ListTodo} colorClassName="text-yellow-600" />
         <StatCard title="Tickets Cerrados" value={closedTickets} icon={ListChecks} colorClassName="text-green-600" />
         <StatCard title="Prioridad Alta (Abiertos)" value={highPriority} icon={Flame} colorClassName="text-red-600" />
         <StatCard title="Prioridad Media (Abiertos)" value={mediumPriority} icon={AlertTriangle} colorClassName="text-orange-600" />
         <StatCard title="Prioridad Baja (Abiertos)" value={lowPriority} icon={Info} colorClassName="text-blue-600" />
+        <StatCard title="Tiempo Total de Resolución" value={formatDuration(totalSeconds)} icon={Clock} colorClassName="text-purple-600" />
       </div>
     </div>
   );

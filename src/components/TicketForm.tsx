@@ -60,7 +60,13 @@ export default function TicketForm({
   const form = useForm<TicketFormData>({
     resolver: zodResolver(ticketFormSchema),
     defaultValues: {
-      priority: "Media", // Default to "Media" which is the Spanish equivalent
+      title: "",
+      description: "",
+      applicantName: "",
+      applicantDepartment: "",
+      applicantContact: "",
+      priority: "Media",
+      assignee: undefined,
       ...defaultValues,
     },
   });

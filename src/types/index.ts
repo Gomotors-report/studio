@@ -17,6 +17,11 @@ export interface Ticket {
   status: Status;
   assignee?: string; // Name of the technician or team
   solution?: string; // Solution details for completed tickets
+  startTime?: string; // ISO string format - when work started
+  endTime?: string; // ISO string format - when work ended
+  duration?: number; // Duration in seconds (actual work time, excluding pauses)
+  completionDate?: string; // ISO string format - when ticket was completed (legacy)
+  resolutionTimeMinutes?: number; // Time taken to resolve in minutes (legacy)
   // For simplicity, history is not detailed in this scaffold but could be added:
   // history?: Array<{ timestamp: string; action: string; changedBy?: string; details?: string }>;
 }

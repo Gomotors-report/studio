@@ -2,6 +2,8 @@ import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
+  output: 'export',
+  distDir: 'out',
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -17,7 +19,9 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+    unoptimized: true,
   },
+  trailingSlash: true,
 };
 
 export default nextConfig;
